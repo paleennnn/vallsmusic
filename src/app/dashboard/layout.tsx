@@ -5,6 +5,7 @@ import Sidebar from '@/components/Sidebar'
 import Header from '@/components/Header'
 import BottomNav from '@/components/BottomNav'
 import AuthModalWrapper from '@/components/AuthModalWrapper'
+import InstallBanner from '@/components/InstallBanner'
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -13,6 +14,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <Sidebar />
         <div className="flex-1 flex flex-col overflow-hidden">
           <Header />
+          <InstallBanner />
           <main className="flex-1 overflow-y-auto pb-32 md:pb-0">
             {children}
           </main>

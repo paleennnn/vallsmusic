@@ -3,6 +3,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useUser } from "@/hooks/useUser";
+import { usePWAInstall } from '@/hooks/usePWAInstall'
 
 export default function Header() {
   const router = useRouter();
@@ -10,6 +11,7 @@ export default function Header() {
   const { user } = useUser();
   const [scrolled, setScrolled] = useState(false);
   const supabase = createClient();
+  const { isInstallable, isInstalled, triggerInstall } = usePWAInstall()
 
   useEffect(() => {
     const el = document.querySelector("main");
@@ -125,7 +127,14 @@ export default function Header() {
               <p className="px-3 py-2 text-xs text-[#B3B3B3] truncate border-b border-[#444]">
                 {user.email}
               </p>
-              {/* Tambahkan tombol Profile di sini */}
+              {isInstallable && !isInstalled && (
+                <button
+                  onClick={triggerInstall}
+                  className="w-full text-left px-3 py-2 text-sm text-[#FF8A00] hover:bg-[#444] transition-colors flex items-center gap-2"
+                >
+                  Install Aplikasi
+                </button>
+              )}
               <button
                 onClick={() => router.push("/dashboard/profile")}
                 className="w-full text-left px-3 py-2 text-sm text-white hover:bg-[#444] transition-colors"
