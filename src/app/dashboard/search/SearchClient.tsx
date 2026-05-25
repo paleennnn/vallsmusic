@@ -1,15 +1,15 @@
 'use client'
 import { useState, useCallback } from 'react'
-import { searchYouTube, getByKeyword, YTTrack } from '@/lib/youtube'
+import { YTTrack } from '@/lib/youtube'
 import TrackCard from '@/components/TrackCard'
 import SkeletonCard from '@/components/SkeletonCard'
 import Footer from '@/components/Footer'
 
 const GENRES = [
-  { label: '🇮🇩 Pop Indo', keyword: 'lagu pop indonesia 2024' },
+  { label: '🇮🇩 Pop Indo', keyword: 'lagu pop indonesia terbaru' },
   { label: '🎸 Indie Indo', keyword: 'lagu indie indonesia' },
   { label: '🌙 Slow Rock', keyword: 'slow rock indonesia' },
-  { label: '⚡ K-Pop', keyword: 'kpop 2024' },
+  { label: '⚡ K-Pop', keyword: 'kpop terbaru' },
   { label: '🌊 Lo-fi', keyword: 'lofi beats chill' },
   { label: '🎹 Jazz', keyword: 'jazz instrumental' },
   { label: '🔥 Hip-Hop', keyword: 'hip hop indonesia' },
@@ -28,8 +28,14 @@ export default function SearchClient() {
     setLoading(true)
     setActiveTag('')
     setSearched(true)
-    const data = await searchYouTube(q, 20)
-    setResults(data)
+    try {
+      const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`)
+      const data = await res.json()
+      setResults(data)
+    } catch (error) {
+      console.error('Search error:', error)
+      setResults([])
+    }
     setLoading(false)
   }, [])
 
@@ -38,8 +44,14 @@ export default function SearchClient() {
     setActiveTag(label)
     setQuery('')
     setSearched(true)
-    const data = await getByKeyword(keyword, 20)
-    setResults(data)
+    try {
+      const res = await fetch(`/api/search?keyword=${encodeURIComponent(keyword)}`)
+      const data = await res.json()
+      setResults(data)
+    } catch (error) {
+      console.error('Genre fetch error:', error)
+      setResults([])
+    }
     setLoading(false)
   }, [])
 
