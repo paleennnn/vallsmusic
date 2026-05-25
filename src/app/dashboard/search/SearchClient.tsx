@@ -1,5 +1,6 @@
 'use client'
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { YTTrack } from '@/lib/youtube'
 import TrackCard from '@/components/TrackCard'
 import SkeletonCard from '@/components/SkeletonCard'
@@ -17,7 +18,10 @@ const GENRES = [
 ]
 
 export default function SearchClient() {
-  const [query, setQuery] = useState('')
+  const searchParams = useSearchParams()
+  const urlQuery = searchParams.get('q')
+
+  const [query, setQuery] = useState(urlQuery ?? '')
   const [results, setResults] = useState<YTTrack[]>([])
   const [loading, setLoading] = useState(false)
   const [activeTag, setActiveTag] = useState('')
@@ -60,6 +64,14 @@ export default function SearchClient() {
     }
     setLoading(false)
   }, [])
+
+  // Auto-search kalau ada query dari URL (dari header search bar)
+  useEffect(() => {
+    if (urlQuery) {
+      setQuery(urlQuery)
+      handleSearch(urlQuery)
+    }
+  }, [urlQuery, handleSearch])
 
   return (
     <div className="p-6 md:p-8">
