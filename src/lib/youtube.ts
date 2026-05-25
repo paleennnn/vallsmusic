@@ -1,6 +1,9 @@
 const API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY!
 const BASE_URL = 'https://www.googleapis.com/youtube/v3'
 
+// Untuk fungsi yang dipanggil dari Server Component
+const SERVER_API_KEY = process.env.YOUTUBE_API_KEY || process.env.NEXT_PUBLIC_YOUTUBE_API_KEY!
+
 export interface YTTrack {
   id: string
   title: string
@@ -10,23 +13,23 @@ export interface YTTrack {
 }
 
 // Search lagu
-export async function searchYouTube(query: string, maxResults = 20): Promise<YTTrack[]> {
+export async function searchYouTube(query: string, maxResults = 20, apiKey = API_KEY): Promise<YTTrack[]> {
   const res = await fetch(
-    `${BASE_URL}/search?part=snippet&type=video&videoCategoryId=10&q=${encodeURIComponent(query)}&maxResults=${maxResults}&key=${API_KEY}`,
+    `${BASE_URL}/search?part=snippet&type=video&videoCategoryId=10&q=${encodeURIComponent(query)}&maxResults=${maxResults}&key=${apiKey}`,
     { next: { revalidate: 60 } }
   )
   const data = await res.json()
   if (!data.items) return []
 
   const videoIds = data.items.map((item: any) => item.id.videoId).join(',')
-  return formatItems(data.items, await getDurations(videoIds))
+  return formatItems(data.items, await getDurations(videoIds, apiKey))
 }
 
 // Trending musik Indonesia
 export async function getTrendingMusic(maxResults = 20): Promise<YTTrack[]> {
   const res = await fetch(
-    `${BASE_URL}/videos?part=snippet,contentDetails&chart=mostPopular&videoCategoryId=10&regionCode=ID&maxResults=${maxResults}&key=${API_KEY}`,
-    { next: { revalidate: 3600 } }
+    `${BASE_URL}/videos?part=snippet,contentDetails&chart=mostPopular&videoCategoryId=10&regionCode=ID&maxResults=${maxResults}&key=${SERVER_API_KEY}`,
+    { next: { revalidate: 43200 } }
   )
   const data = await res.json()
   if (!data.items) return []
@@ -42,14 +45,14 @@ export async function getTrendingMusic(maxResults = 20): Promise<YTTrack[]> {
 
 // Search by keyword/genre
 export async function getByKeyword(keyword: string, maxResults = 20): Promise<YTTrack[]> {
-  return searchYouTube(`${keyword} music`, maxResults)
+  return searchYouTube(`${keyword} music`, maxResults, SERVER_API_KEY)
 }
 
 // Ambil durasi video dari videoIds (comma separated)
-async function getDurations(videoIds: string): Promise<Record<string, string>> {
+async function getDurations(videoIds: string, apiKey = API_KEY): Promise<Record<string, string>> {
   if (!videoIds) return {}
   const res = await fetch(
-    `${BASE_URL}/videos?part=contentDetails&id=${videoIds}&key=${API_KEY}`
+    `${BASE_URL}/videos?part=contentDetails&id=${videoIds}&key=${apiKey}`
   )
   const data = await res.json()
   const map: Record<string, string> = {}
