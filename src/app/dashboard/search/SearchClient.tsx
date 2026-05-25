@@ -29,7 +29,10 @@ export default function SearchClient() {
     setActiveTag('')
     setSearched(true)
     try {
-      const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`)
+      const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`, {
+        cache: 'no-store',
+        headers: { 'Accept': 'application/json' }
+      })
       const data = await res.json()
       setResults(data)
     } catch (error) {
@@ -45,7 +48,10 @@ export default function SearchClient() {
     setQuery('')
     setSearched(true)
     try {
-      const res = await fetch(`/api/search?keyword=${encodeURIComponent(keyword)}`)
+      const res = await fetch(`/api/search?keyword=${encodeURIComponent(keyword)}`, {
+        cache: 'no-store',
+        headers: { 'Accept': 'application/json' }
+      })
       const data = await res.json()
       setResults(data)
     } catch (error) {
