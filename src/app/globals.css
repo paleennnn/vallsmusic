@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #191414;
+  --surface: #212121;
+  --surface2: #2a2a2a;
+  --surface3: #333333;
+  --accent: #FF8A00;
+  --accent2: #FFA629;
+  --accent3: #FF6D00;
+  --text: #FFFFFF;
+  --muted: #B3B3B3;
+  --border: #2a2a2a;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* Orange gradient utility */
+.gradient-orange {
+  background: linear-gradient(135deg, #FFA629 0%, #FF8A00 50%, #FF6D00 100%);
+}
+
+.gradient-orange-text {
+  background: linear-gradient(135deg, #FFA629 0%, #FF8A00 50%, #FF6D00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

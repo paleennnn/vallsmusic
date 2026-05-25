@@ -1,0 +1,37 @@
+{
+  "name": "VallsMusic",
+  "short_name": "VallsMusic",
+  "description": "Dengerin musik favoritmu kapan saja",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#7c5cfc",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["music", "entertainment"],
+  "shortcuts": [
+    {
+      "name": "Cari Lagu",
+      "url": "/dashboard/search",
+      "description": "Cari lagu favorit kamu"
+    },
+    {
+      "name": "Favorit",
+      "url": "/dashboard/favorites",
+      "description": "Lagu favorit kamu"
+    }
+  ]
+}
