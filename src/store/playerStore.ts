@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { YTTrack } from '@/lib/youtube'
+import { addToRecentlyPlayed } from '@/hooks/useRecentlyPlayed'
 
 interface AuthModalState {
   isOpen: boolean
@@ -42,7 +43,10 @@ export const usePlayerStore = create<PlayerState>()(
       isShuffle: false,
       isRepeat: false,
 
-      setTrack: (track, queue = []) => set({ currentTrack: track, queue, isPlaying: true }),
+      setTrack: (track, queue = []) => {
+        addToRecentlyPlayed(track)
+        set({ currentTrack: track, queue, isPlaying: true })
+      },
       togglePlay: () => set(s => ({ isPlaying: !s.isPlaying })),
       setPlaying: (v) => set({ isPlaying: v }),
       setVolume: (v) => set({ volume: v }),
