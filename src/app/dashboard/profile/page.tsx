@@ -57,7 +57,7 @@ export default function ProfilePage() {
   const initial = (user.user_metadata?.display_name || user.email || 'U')[0].toUpperCase()
 
   return (
-    <div className="p-6 md:p-8 max-w-2xl">
+    <div className="p-6 md:p-8 max-w-2xl mx-auto">
       {/* Header Profil */}
       <div className="flex items-center gap-6 mb-8">
         <div className="w-24 h-24 rounded-full gradient-orange flex items-center justify-center text-4xl font-black text-white flex-shrink-0">
@@ -77,11 +77,11 @@ export default function ProfilePage() {
         <div className="bg-[#212121] rounded-2xl p-5 cursor-pointer hover:bg-[#2a2a2a] transition-colors"
           onClick={() => router.push('/dashboard/favorites')}>
           <p className="text-3xl font-black text-white">{favCount}</p>
-          <p className="text-[#B3B3B3] text-sm mt-1">❤️ Lagu Favorit</p>
+          <p className="text-[#B3B3B3] text-sm mt-1">Lagu Favorit</p>
         </div>
         <div className="bg-[#212121] rounded-2xl p-5">
           <p className="text-3xl font-black text-white">{playlistCount}</p>
-          <p className="text-[#B3B3B3] text-sm mt-1">🎵 Playlist</p>
+          <p className="text-[#B3B3B3] text-sm mt-1">Playlist</p>
         </div>
       </div>
 
@@ -105,10 +105,12 @@ export default function ProfilePage() {
             <input type="text" value={user.email ?? ''} disabled
               className="w-full bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl px-4 py-3 text-[#B3B3B3] text-sm outline-none cursor-not-allowed" />
           </div>
-          <button onClick={handleSave} disabled={saving}
-            className="gradient-orange text-white font-bold px-6 py-2.5 rounded-full hover:opacity-90 disabled:opacity-50 transition-opacity text-sm">
-            {saved ? '✅ Tersimpan!' : saving ? 'Menyimpan...' : 'Simpan'}
-          </button>
+          <div className="flex justify-center pt-2">
+            <button onClick={handleSave} disabled={saving}
+              className="gradient-orange text-white font-bold px-10 py-2.5 rounded-full hover:opacity-90 disabled:opacity-50 transition-opacity text-sm">
+              {saved ? '✅ Tersimpan!' : saving ? 'Menyimpan...' : 'Simpan'}
+            </button>
+          </div>
         </div>
       </div>
 
