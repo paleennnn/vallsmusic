@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Allow: /dashboard
+Disallow: /api/
+Disallow: /auth/
+
+Sitemap: https://vallsmusic.vercel.app/sitemap.xml
