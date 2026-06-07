@@ -1,0 +1,19 @@
+name: Keep Supabase Alive
+
+on:
+  schedule:
+    # Ping setiap 3 hari sekali jam 8 pagi WIB (01:00 UTC)
+    - cron: '0 1 */3 * *'
+  workflow_dispatch: # Bisa trigger manual juga
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase
+        run: |
+          curl -X GET "${{ secrets.SUPABASE_URL }}/rest/v1/profiles?select=id&limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
+            --silent --output /dev/null --write-out "Status: %{http_code}\n"
+          echo "Ping berhasil - $(date)"
